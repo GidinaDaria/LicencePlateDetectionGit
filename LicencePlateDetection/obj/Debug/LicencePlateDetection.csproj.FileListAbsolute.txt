@@ -1,9 +1,0 @@
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\bin\Debug\LicencePlateDetection.exe.config
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\bin\Debug\LicencePlateDetection.exe
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\bin\Debug\LicencePlateDetection.pdb
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.csprojResolveAssemblyReference.cache
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.Form1.resources
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.Properties.Resources.resources
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.csproj.GenerateResource.Cache
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.exe
-D:\University\C#\LicencePlateDetection\LicencePlateDetection\obj\Debug\LicencePlateDetection.pdb
