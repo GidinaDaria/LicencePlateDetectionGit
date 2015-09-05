@@ -12,7 +12,6 @@ namespace LicencePlateDetection
     {
         private enum WindowSize { ThreeOnThree = 3, FiveOnFive = 5, SevenOnSeven = 7, NineOnNine = 9 }
         private Bitmap Bitmap { get; set; }
-        private bool Applied { get; set; }
 
         public Form1()
         {
@@ -28,7 +27,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -47,7 +46,7 @@ namespace LicencePlateDetection
                         currentLine[j + 2] = 255;
                     }
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -63,7 +62,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -75,7 +74,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -89,7 +88,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -101,7 +100,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
-            });           
+            }         
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -115,7 +114,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -125,7 +124,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -139,7 +138,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -149,7 +148,7 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -163,7 +162,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels, i =>
+            for (int i = 0; i < heightInPixels; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -173,7 +172,7 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -187,7 +186,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            Parallel.For(0, heightInPixels - Convert.ToInt32(windowSize) + 1, i =>
+            for (int i = 0; i < heightInPixels - Convert.ToInt32(windowSize) + 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes - Convert.ToInt32(windowSize) * bytesPerPixel + bytesPerPixel; j = j + bytesPerPixel)
@@ -211,7 +210,7 @@ namespace LicencePlateDetection
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
                 }
-            });
+            }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
         }
@@ -219,80 +218,42 @@ namespace LicencePlateDetection
         private void Form1_Load(object sender, EventArgs e)
         {
             Bitmap = new Bitmap(pictureBox1.Image);
-            Applied = false;
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                Binarization(trackBar1.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            Binarization(trackBar1.Value);
         }
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                Brightness(trackBar2.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            Brightness(trackBar2.Value);
         }
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                BlueFiltering(trackBar3.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            BlueFiltering(trackBar3.Value);
         }
 
         private void trackBar4_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                GreenFiltering(trackBar4.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            GreenFiltering(trackBar4.Value);
         }
 
         private void trackBar5_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                RedFiltering(trackBar5.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            RedFiltering(trackBar5.Value);
         }
 
         private void trackBar6_ValueChanged(object sender, EventArgs e)
         {
-            if (!Applied)
-            {
-                Contrast(trackBar6.Value);
-            }
-            else
-            {
-                Applied = false;
-            }
+            Contrast(trackBar6.Value);
         }
+
+        private void trackBar7_ValueChanged(object sender, EventArgs e)
+        {
+            MedianFiltering((WindowSize)(trackBar7.Value * 2 + 1));
+        }   
 
         private void trackBar1_Leave(object sender, EventArgs e)
         {
@@ -324,9 +285,9 @@ namespace LicencePlateDetection
             trackBar6.Value = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void trackBar7_Leave(object sender, EventArgs e)
         {
-            MedianFiltering(WindowSize.NineOnNine);
-        }      
+            trackBar6.Value = 1;
+        }       
     }
 }

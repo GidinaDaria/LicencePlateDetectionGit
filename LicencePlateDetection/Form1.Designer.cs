@@ -36,7 +36,7 @@
             this.trackBar4 = new System.Windows.Forms.TrackBar();
             this.trackBar5 = new System.Windows.Forms.TrackBar();
             this.trackBar6 = new System.Windows.Forms.TrackBar();
-            this.button1 = new System.Windows.Forms.Button();
+            this.trackBar7 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -44,6 +44,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -127,15 +128,19 @@
             this.trackBar6.ValueChanged += new System.EventHandler(this.trackBar6_ValueChanged);
             this.trackBar6.Leave += new System.EventHandler(this.trackBar6_Leave);
             // 
-            // button1
+            // trackBar7
             // 
-            this.button1.Location = new System.Drawing.Point(697, 527);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.trackBar7.LargeChange = 1;
+            this.trackBar7.Location = new System.Drawing.Point(618, 318);
+            this.trackBar7.Maximum = 4;
+            this.trackBar7.Minimum = 1;
+            this.trackBar7.Name = "trackBar7";
+            this.trackBar7.Size = new System.Drawing.Size(154, 45);
+            this.trackBar7.TabIndex = 10;
+            this.trackBar7.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar7.Value = 1;
+            this.trackBar7.ValueChanged += new System.EventHandler(this.trackBar7_ValueChanged);
+            this.trackBar7.Leave += new System.EventHandler(this.trackBar7_Leave);
             // 
             // Form1
             // 
@@ -143,7 +148,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(784, 562);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.trackBar7);
             this.Controls.Add(this.trackBar6);
             this.Controls.Add(this.trackBar5);
             this.Controls.Add(this.trackBar4);
@@ -165,6 +170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,7 +185,7 @@
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TrackBar trackBar5;
         private System.Windows.Forms.TrackBar trackBar6;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TrackBar trackBar7;
     }
 }
 
