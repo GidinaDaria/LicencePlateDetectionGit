@@ -4,11 +4,13 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace LicencePlateDetection
 {
     public partial class Form1 : Form
     {
+        private enum WindowSize { ThreeOnThree = 3, FiveOnFive = 5, SevenOnSeven = 7, NineOnNine = 9 }
         private Bitmap Bitmap { get; set; }
         private bool Applied { get; set; }
 
@@ -176,38 +178,43 @@ namespace LicencePlateDetection
             pictureBox1.Image = bitmap;
         }
 
-        /*private void MedianFilter()
+        private unsafe void MedianFiltering(WindowSize windowSize)
         {
+            GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-            IntPtr ptr = bitmapData.Scan0;
-            int bytes = Math.Abs(bitmapData.Stride) * bitmap.Height;
-            byte[] rgbValues = new byte[bytes];
-            Marshal.Copy(ptr, rgbValues, 0, bytes);
-            float rgb = 0;
-            for (int i = 3; i < rgbValues.Length; i += 4)
+            int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            int heightInPixels = bitmapData.Height;
+            int widthInBytes = bitmapData.Width * bytesPerPixel;
+            byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
+            Parallel.For(0, heightInPixels - Convert.ToInt32(windowSize) + 1, i =>
             {
-                //rgb = rgbValues[i]*0.3f
-                //rgb += rgbValues[i - 1]
-                int brightness = (rgbValues[i - 3] + rgbValues[i - 2] + rgbValues[i - 1]) / 3;
-                if (brightness <= 0)
+                byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
+                for (int j = 0; j < widthInBytes - Convert.ToInt32(windowSize) * bytesPerPixel + bytesPerPixel; j = j + bytesPerPixel)
                 {
-                    rgbValues[i - 3] = 0;
-                    rgbValues[i - 2] = 0;
-                    rgbValues[i - 1] = 0;
+                    List<Color> colors = new List<Color>();
+                    for (int k = 0; k < Convert.ToInt32(windowSize); k++)
+                    {
+                        byte* currentWindowLine = currentLine + (k * bitmapData.Stride);
+                        for (int l = j; l < j + Convert.ToInt32(windowSize) * bytesPerPixel; l = l + bytesPerPixel)
+                        {
+                            colors.Add(Color.FromArgb(currentWindowLine[l + 2], currentWindowLine[l + 1], currentWindowLine[l]));
+                        }
+                    }
+                    colors.Sort((Color left, Color right) =>
+                    {
+                        int leftBrightness = (left.R + left.G + left.B) / 3;
+                        int rightBrightness = (right.R + right.G + right.B) / 3;
+                        return leftBrightness.CompareTo(rightBrightness);
+                    });
+                    currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel] = Convert.ToByte(colors[colors.Count / 2].B);
+                    currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
+                    currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
                 }
-                else
-                {
-                    rgbValues[i - 3] = 255;
-                    rgbValues[i - 2] = 255;
-                    rgbValues[i - 1] = 255;
-                }
-            }
-            Marshal.Copy(rgbValues, 0, ptr, bytes);
+            });
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
-
-        }*/
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -315,6 +322,11 @@ namespace LicencePlateDetection
         private void trackBar6_Leave(object sender, EventArgs e)
         {
             trackBar6.Value = 0;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MedianFiltering(WindowSize.NineOnNine);
         }      
     }
 }

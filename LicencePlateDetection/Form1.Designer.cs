@@ -36,6 +36,7 @@
             this.trackBar4 = new System.Windows.Forms.TrackBar();
             this.trackBar5 = new System.Windows.Forms.TrackBar();
             this.trackBar6 = new System.Windows.Forms.TrackBar();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -52,7 +53,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(600, 538);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -126,12 +127,23 @@
             this.trackBar6.ValueChanged += new System.EventHandler(this.trackBar6_ValueChanged);
             this.trackBar6.Leave += new System.EventHandler(this.trackBar6_Leave);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(697, 527);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(784, 562);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar6);
             this.Controls.Add(this.trackBar5);
             this.Controls.Add(this.trackBar4);
@@ -167,6 +179,7 @@
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TrackBar trackBar5;
         private System.Windows.Forms.TrackBar trackBar6;
+        private System.Windows.Forms.Button button1;
     }
 }
 
