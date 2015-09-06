@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.IO;
 
 namespace LicencePlateDetection
 {
@@ -20,6 +21,7 @@ namespace LicencePlateDetection
 
         private unsafe void Binarization(int threshold)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -46,14 +48,16 @@ namespace LicencePlateDetection
                         currentLine[j + 2] = 255;
                     }
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));            
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void Contrast(int value)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             double newValue = (100.0 + value) / 100.0;
             newValue *= newValue;
@@ -75,14 +79,16 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void Brightness(int value)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -102,14 +108,16 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
             }         
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void BlueFiltering(int value)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -127,14 +135,16 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void GreenFiltering(int value)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -152,14 +162,16 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void RedFiltering(int value)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -177,14 +189,16 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - 1);
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private unsafe void MedianFiltering(WindowSize windowSize)
         {
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = false; }));
             GC.Collect();
             Bitmap bitmap = new Bitmap(Bitmap);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -216,22 +230,19 @@ namespace LicencePlateDetection
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
                 }
-                progressBar1.Value = 100 * i / (heightInPixels - Convert.ToInt32(windowSize));
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - Convert.ToInt32(windowSize)); }));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Bitmap = new Bitmap(pictureBox1.Image);
+            groupBox1.BeginInvoke(new Action(() => { groupBox1.Enabled = true; }));
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             if (trackBar1.Focused)
             {
-                Binarization(trackBar1.Value);
+                int threshold = trackBar1.Value;
+                Task.Factory.StartNew(new Action(() => { Binarization(threshold); }));
             }
         }
 
@@ -239,7 +250,8 @@ namespace LicencePlateDetection
         {
             if (trackBar2.Focused)
             {
-                Brightness(trackBar2.Value);
+                int value = trackBar2.Value;
+                Task.Factory.StartNew(new Action(() => { Brightness(value); }));
             }
         }
 
@@ -247,7 +259,8 @@ namespace LicencePlateDetection
         {
             if (trackBar3.Focused)
             {
-                BlueFiltering(trackBar3.Value);
+                int value = trackBar3.Value;
+                Task.Factory.StartNew(new Action(() => { BlueFiltering(value); }));
             }
         }
 
@@ -255,7 +268,8 @@ namespace LicencePlateDetection
         {
             if (trackBar4.Focused)
             {
-                GreenFiltering(trackBar4.Value);
+                int value = trackBar4.Value;
+                Task.Factory.StartNew(new Action(() => { GreenFiltering(value); }));
             }
         }
 
@@ -263,7 +277,8 @@ namespace LicencePlateDetection
         {
             if (trackBar5.Focused)
             {
-                RedFiltering(trackBar5.Value);
+                int value = trackBar5.Value;
+                Task.Factory.StartNew(new Action(() => { RedFiltering(value); }));
             }
         }
 
@@ -271,7 +286,8 @@ namespace LicencePlateDetection
         {
             if (trackBar6.Focused)
             {
-                Contrast(trackBar6.Value);
+                int value = trackBar6.Value;
+                Task.Factory.StartNew(new Action(() => { Contrast(value); }));
             }
         }
 
@@ -279,7 +295,8 @@ namespace LicencePlateDetection
         {
             if (trackBar7.Focused)
             {
-                MedianFiltering((WindowSize)(trackBar7.Value * 2 + 1));
+                WindowSize windowSize = (WindowSize)(trackBar7.Value * 2 + 1);
+                Task.Factory.StartNew(() => { MedianFiltering(windowSize); });
             }
         }   
 
@@ -316,6 +333,24 @@ namespace LicencePlateDetection
         private void trackBar7_Leave(object sender, EventArgs e)
         {
             trackBar7.Value = 1;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GC.Collect();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(openFileDialog1.FileName)));
+                if (Bitmap.Width > pictureBox1.Width || Bitmap.Height > pictureBox1.Height)
+                {
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+                else
+                {
+                    pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                }
+                pictureBox1.Image = Bitmap;
+            }
         }       
     }
 }
