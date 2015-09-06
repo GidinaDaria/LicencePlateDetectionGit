@@ -350,6 +350,13 @@ namespace LicencePlateDetection
                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
                 }
                 pictureBox1.Image = Bitmap;
+                trackBar1.Enabled = true;
+                trackBar2.Enabled = true;
+                trackBar3.Enabled = true;
+                trackBar4.Enabled = true;
+                trackBar5.Enabled = true;
+                trackBar6.Enabled = true;
+                trackBar7.Enabled = true;
             }
         }       
     }
