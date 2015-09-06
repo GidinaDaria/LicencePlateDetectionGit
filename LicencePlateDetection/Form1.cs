@@ -27,7 +27,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -46,6 +46,7 @@ namespace LicencePlateDetection
                         currentLine[j + 2] = 255;
                     }
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -62,7 +63,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -74,6 +75,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -88,7 +90,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -100,6 +102,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                     currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }         
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -114,7 +117,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -124,6 +127,7 @@ namespace LicencePlateDetection
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -138,7 +142,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -148,6 +152,7 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -162,7 +167,7 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels; i++)
+            for (int i = 0; i <= heightInPixels - 1; i++)
             {
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -172,6 +177,7 @@ namespace LicencePlateDetection
                     currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
                     currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - 1);
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -186,8 +192,8 @@ namespace LicencePlateDetection
             int heightInPixels = bitmapData.Height;
             int widthInBytes = bitmapData.Width * bytesPerPixel;
             byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-            for (int i = 0; i < heightInPixels - Convert.ToInt32(windowSize) + 1; i++)
-            {
+            for (int i = 0; i <= heightInPixels - Convert.ToInt32(windowSize); i++)
+            {                
                 byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                 for (int j = 0; j < widthInBytes - Convert.ToInt32(windowSize) * bytesPerPixel + bytesPerPixel; j = j + bytesPerPixel)
                 {
@@ -210,6 +216,7 @@ namespace LicencePlateDetection
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
                     currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
                 }
+                progressBar1.Value = 100 * i / (heightInPixels - Convert.ToInt32(windowSize));
             }
             bitmap.UnlockBits(bitmapData);
             pictureBox1.Image = bitmap;
@@ -222,37 +229,58 @@ namespace LicencePlateDetection
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            Binarization(trackBar1.Value);
+            if (trackBar1.Focused)
+            {
+                Binarization(trackBar1.Value);
+            }
         }
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            Brightness(trackBar2.Value);
+            if (trackBar2.Focused)
+            {
+                Brightness(trackBar2.Value);
+            }
         }
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
-            BlueFiltering(trackBar3.Value);
+            if (trackBar3.Focused)
+            {
+                BlueFiltering(trackBar3.Value);
+            }
         }
 
         private void trackBar4_ValueChanged(object sender, EventArgs e)
         {
-            GreenFiltering(trackBar4.Value);
+            if (trackBar4.Focused)
+            {
+                GreenFiltering(trackBar4.Value);
+            }
         }
 
         private void trackBar5_ValueChanged(object sender, EventArgs e)
         {
-            RedFiltering(trackBar5.Value);
+            if (trackBar5.Focused)
+            {
+                RedFiltering(trackBar5.Value);
+            }
         }
 
         private void trackBar6_ValueChanged(object sender, EventArgs e)
         {
-            Contrast(trackBar6.Value);
+            if (trackBar6.Focused)
+            {
+                Contrast(trackBar6.Value);
+            }
         }
 
         private void trackBar7_ValueChanged(object sender, EventArgs e)
         {
-            MedianFiltering((WindowSize)(trackBar7.Value * 2 + 1));
+            if (trackBar7.Focused)
+            {
+                MedianFiltering((WindowSize)(trackBar7.Value * 2 + 1));
+            }
         }   
 
         private void trackBar1_Leave(object sender, EventArgs e)
@@ -287,7 +315,7 @@ namespace LicencePlateDetection
 
         private void trackBar7_Leave(object sender, EventArgs e)
         {
-            trackBar6.Value = 1;
+            trackBar7.Value = 1;
         }       
     }
 }
