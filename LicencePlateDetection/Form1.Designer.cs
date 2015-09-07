@@ -37,8 +37,8 @@
             this.trackBar6 = new System.Windows.Forms.TrackBar();
             this.trackBar7 = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -73,7 +73,6 @@
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Value = 128;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            this.trackBar1.Leave += new System.EventHandler(this.trackBar1_Leave);
             // 
             // trackBar2
             // 
@@ -86,7 +85,6 @@
             this.trackBar2.TabIndex = 3;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar2.ValueChanged += new System.EventHandler(this.trackBar2_ValueChanged);
-            this.trackBar2.Leave += new System.EventHandler(this.trackBar2_Leave);
             // 
             // trackBar3
             // 
@@ -98,7 +96,6 @@
             this.trackBar3.TabIndex = 4;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar3.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
-            this.trackBar3.Leave += new System.EventHandler(this.trackBar3_Leave);
             // 
             // trackBar4
             // 
@@ -110,7 +107,6 @@
             this.trackBar4.TabIndex = 5;
             this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar4.ValueChanged += new System.EventHandler(this.trackBar4_ValueChanged);
-            this.trackBar4.Leave += new System.EventHandler(this.trackBar4_Leave);
             // 
             // trackBar5
             // 
@@ -122,7 +118,6 @@
             this.trackBar5.TabIndex = 6;
             this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar5.ValueChanged += new System.EventHandler(this.trackBar5_ValueChanged);
-            this.trackBar5.Leave += new System.EventHandler(this.trackBar5_Leave);
             // 
             // trackBar6
             // 
@@ -135,7 +130,6 @@
             this.trackBar6.TabIndex = 8;
             this.trackBar6.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar6.ValueChanged += new System.EventHandler(this.trackBar6_ValueChanged);
-            this.trackBar6.Leave += new System.EventHandler(this.trackBar6_Leave);
             // 
             // trackBar7
             // 
@@ -150,7 +144,6 @@
             this.trackBar7.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar7.Value = 1;
             this.trackBar7.ValueChanged += new System.EventHandler(this.trackBar7_ValueChanged);
-            this.trackBar7.Leave += new System.EventHandler(this.trackBar7_Leave);
             // 
             // groupBox1
             // 
@@ -169,13 +162,6 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(6, 463);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(215, 23);
-            this.progressBar1.TabIndex = 11;
-            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.DimGray;
@@ -188,6 +174,13 @@
             this.button1.Text = "Обзор...";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(6, 463);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(215, 23);
+            this.progressBar1.TabIndex = 11;
             // 
             // openFileDialog1
             // 
