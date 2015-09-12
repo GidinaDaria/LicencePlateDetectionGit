@@ -325,6 +325,16 @@ namespace LicencePlateDetection
                 trackBar6.Enabled = true;
                 trackBar7.Enabled = true;
             }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F12)
+            {
+                Bitmap bitmap = new Bitmap(Width, Height);
+                this.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
+                bitmap.Save("Screenshot.jpg", ImageFormat.Jpeg);
+            }
         }       
     }
 }
