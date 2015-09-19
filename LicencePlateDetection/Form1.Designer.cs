@@ -37,12 +37,14 @@
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.trackBar5 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -108,6 +110,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.trackBar5);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.trackBar4);
@@ -143,7 +146,18 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Картинки|*.bmp;*.jpg";
-            this.openFileDialog1.InitialDirectory = "D:\\";
+            // 
+            // trackBar5
+            // 
+            this.trackBar5.Enabled = false;
+            this.trackBar5.LargeChange = 1;
+            this.trackBar5.Location = new System.Drawing.Point(6, 223);
+            this.trackBar5.Maximum = 1;
+            this.trackBar5.Name = "trackBar5";
+            this.trackBar5.Size = new System.Drawing.Size(215, 45);
+            this.trackBar5.TabIndex = 13;
+            this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar5.ValueChanged += new System.EventHandler(this.trackBar5_ValueChanged);
             // 
             // Form1
             // 
@@ -168,6 +182,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -183,6 +198,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TrackBar trackBar5;
     }
 }
 
