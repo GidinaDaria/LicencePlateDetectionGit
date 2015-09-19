@@ -33,9 +33,6 @@
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.trackBar4 = new System.Windows.Forms.TrackBar();
-            this.trackBar5 = new System.Windows.Forms.TrackBar();
-            this.trackBar6 = new System.Windows.Forms.TrackBar();
-            this.trackBar7 = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -45,9 +42,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,72 +84,36 @@
             // 
             this.trackBar3.Enabled = false;
             this.trackBar3.Location = new System.Drawing.Point(6, 121);
-            this.trackBar3.Maximum = 255;
+            this.trackBar3.Maximum = 100;
+            this.trackBar3.Minimum = -100;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Size = new System.Drawing.Size(215, 45);
-            this.trackBar3.TabIndex = 4;
+            this.trackBar3.TabIndex = 8;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar3.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
             // 
             // trackBar4
             // 
             this.trackBar4.Enabled = false;
+            this.trackBar4.LargeChange = 1;
             this.trackBar4.Location = new System.Drawing.Point(6, 172);
-            this.trackBar4.Maximum = 255;
+            this.trackBar4.Maximum = 4;
+            this.trackBar4.Minimum = 1;
             this.trackBar4.Name = "trackBar4";
             this.trackBar4.Size = new System.Drawing.Size(215, 45);
-            this.trackBar4.TabIndex = 5;
+            this.trackBar4.TabIndex = 10;
             this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar4.Value = 1;
             this.trackBar4.ValueChanged += new System.EventHandler(this.trackBar4_ValueChanged);
-            // 
-            // trackBar5
-            // 
-            this.trackBar5.Enabled = false;
-            this.trackBar5.Location = new System.Drawing.Point(6, 223);
-            this.trackBar5.Maximum = 255;
-            this.trackBar5.Name = "trackBar5";
-            this.trackBar5.Size = new System.Drawing.Size(215, 45);
-            this.trackBar5.TabIndex = 6;
-            this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar5.ValueChanged += new System.EventHandler(this.trackBar5_ValueChanged);
-            // 
-            // trackBar6
-            // 
-            this.trackBar6.Enabled = false;
-            this.trackBar6.Location = new System.Drawing.Point(6, 274);
-            this.trackBar6.Maximum = 100;
-            this.trackBar6.Minimum = -100;
-            this.trackBar6.Name = "trackBar6";
-            this.trackBar6.Size = new System.Drawing.Size(215, 45);
-            this.trackBar6.TabIndex = 8;
-            this.trackBar6.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar6.ValueChanged += new System.EventHandler(this.trackBar6_ValueChanged);
-            // 
-            // trackBar7
-            // 
-            this.trackBar7.Enabled = false;
-            this.trackBar7.LargeChange = 1;
-            this.trackBar7.Location = new System.Drawing.Point(6, 325);
-            this.trackBar7.Maximum = 4;
-            this.trackBar7.Minimum = 1;
-            this.trackBar7.Name = "trackBar7";
-            this.trackBar7.Size = new System.Drawing.Size(215, 45);
-            this.trackBar7.TabIndex = 10;
-            this.trackBar7.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar7.Value = 1;
-            this.trackBar7.ValueChanged += new System.EventHandler(this.trackBar7_ValueChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.progressBar1);
-            this.groupBox1.Controls.Add(this.trackBar5);
-            this.groupBox1.Controls.Add(this.trackBar7);
-            this.groupBox1.Controls.Add(this.trackBar1);
-            this.groupBox1.Controls.Add(this.trackBar6);
-            this.groupBox1.Controls.Add(this.trackBar2);
-            this.groupBox1.Controls.Add(this.trackBar3);
             this.groupBox1.Controls.Add(this.trackBar4);
+            this.groupBox1.Controls.Add(this.trackBar1);
+            this.groupBox1.Controls.Add(this.trackBar3);
+            this.groupBox1.Controls.Add(this.trackBar2);
             this.groupBox1.Location = new System.Drawing.Point(769, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(227, 542);
@@ -208,9 +166,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -224,9 +179,6 @@
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar4;
-        private System.Windows.Forms.TrackBar trackBar5;
-        private System.Windows.Forms.TrackBar trackBar6;
-        private System.Windows.Forms.TrackBar trackBar7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button button1;

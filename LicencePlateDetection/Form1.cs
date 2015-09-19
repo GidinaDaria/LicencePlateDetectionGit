@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace LicencePlateDetection
 {
@@ -33,7 +34,8 @@ namespace LicencePlateDetection
                 int heightInPixels = bitmapData.Height;
                 int widthInBytes = bitmapData.Width * bytesPerPixel;
                 byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
+                double progress = 0.0;
+                Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -52,8 +54,9 @@ namespace LicencePlateDetection
                             currentLine[j + 2] = 255;
                         }
                     }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
+                    Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
+                });
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -74,7 +77,8 @@ namespace LicencePlateDetection
                 int heightInPixels = bitmapData.Height;
                 int widthInBytes = bitmapData.Width * bytesPerPixel;
                 byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
+                double progress = 0.0;
+                Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -86,8 +90,9 @@ namespace LicencePlateDetection
                         currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                         currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                     }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
+                    Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
+                });
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -106,7 +111,8 @@ namespace LicencePlateDetection
                 int heightInPixels = bitmapData.Height;
                 int widthInBytes = bitmapData.Width * bytesPerPixel;
                 byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
+                double progress = 0.0;
+                Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -118,98 +124,9 @@ namespace LicencePlateDetection
                         currentLine[j + 1] = Convert.ToByte((gValue < 0 ? 0 : (gValue > 255 ? 255 : gValue)));
                         currentLine[j + 2] = Convert.ToByte((rValue < 0 ? 0 : (rValue > 255 ? 255 : rValue)));
                     }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
-                bitmap.UnlockBits(bitmapData);
-                pictureBox1.Image = bitmap;
-                button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
-            }
-        }
-
-        private unsafe void BlueFiltering(int value)
-        {
-            lock (LockObject)
-            {
-                button1.BeginInvoke(new Action(() => { button1.Enabled = false; }));
-                GC.Collect();
-                Bitmap bitmap = new Bitmap(Bitmap);
-                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-                int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
-                int heightInPixels = bitmapData.Height;
-                int widthInBytes = bitmapData.Width * bytesPerPixel;
-                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
-                {
-                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
-                    for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
-                    {
-                        int gValue = currentLine[j + 1] - value;
-                        int rValue = currentLine[j + 2] - value;
-                        currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
-                        currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
-                    }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
-                bitmap.UnlockBits(bitmapData);
-                pictureBox1.Image = bitmap;
-                button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
-            }
-        }
-
-        private unsafe void GreenFiltering(int value)
-        {
-            lock (LockObject)
-            {
-                button1.BeginInvoke(new Action(() => { button1.Enabled = false; }));
-                GC.Collect();
-                Bitmap bitmap = new Bitmap(Bitmap);
-                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-                int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
-                int heightInPixels = bitmapData.Height;
-                int widthInBytes = bitmapData.Width * bytesPerPixel;
-                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
-                {
-                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
-                    for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
-                    {
-                        int bValue = currentLine[j] - value;
-                        int rValue = currentLine[j + 2] - value;
-                        currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
-                        currentLine[j + 2] = Convert.ToByte(rValue < 0 ? 0 : rValue);
-                    }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
-                bitmap.UnlockBits(bitmapData);
-                pictureBox1.Image = bitmap;
-                button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
-            }
-        }
-
-        private unsafe void RedFiltering(int value)
-        {
-            lock (LockObject)
-            {
-                button1.BeginInvoke(new Action(() => { button1.Enabled = false; }));
-                GC.Collect();
-                Bitmap bitmap = new Bitmap(Bitmap);
-                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-                int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
-                int heightInPixels = bitmapData.Height;
-                int widthInBytes = bitmapData.Width * bytesPerPixel;
-                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - 1; i++)
-                {
-                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
-                    for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
-                    {
-                        int bValue = currentLine[j] - value;
-                        int gValue = currentLine[j + 1] - value;
-                        currentLine[j] = Convert.ToByte(bValue < 0 ? 0 : bValue);
-                        currentLine[j + 1] = Convert.ToByte(gValue < 0 ? 0 : gValue);
-                    }
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - 1); }));
-                }
+                    Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));              
+                });
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -275,30 +192,12 @@ namespace LicencePlateDetection
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
             int value = trackBar3.Value;
-            Task.Factory.StartNew(new Action(() => { BlueFiltering(value); }));
+            Task.Factory.StartNew(new Action(() => { Contrast(value); }));
         }
 
         private void trackBar4_ValueChanged(object sender, EventArgs e)
         {
-            int value = trackBar4.Value;
-            Task.Factory.StartNew(new Action(() => { GreenFiltering(value); }));
-        }
-
-        private void trackBar5_ValueChanged(object sender, EventArgs e)
-        {
-            int value = trackBar5.Value;
-            Task.Factory.StartNew(new Action(() => { RedFiltering(value); }));
-        }
-
-        private void trackBar6_ValueChanged(object sender, EventArgs e)
-        {
-            int value = trackBar6.Value;
-            Task.Factory.StartNew(new Action(() => { Contrast(value); }));
-        }
-
-        private void trackBar7_ValueChanged(object sender, EventArgs e)
-        {
-            WindowSize windowSize = (WindowSize)(trackBar7.Value * 2 + 1);
+            WindowSize windowSize = (WindowSize)(trackBar4.Value * 2 + 1);
             Task.Factory.StartNew(() => { MedianFiltering(windowSize); });
         }   
 
@@ -321,9 +220,6 @@ namespace LicencePlateDetection
                 trackBar2.Enabled = true;
                 trackBar3.Enabled = true;
                 trackBar4.Enabled = true;
-                trackBar5.Enabled = true;
-                trackBar6.Enabled = true;
-                trackBar7.Enabled = true;
             }
         }
 
