@@ -84,7 +84,7 @@ namespace LicencePlateDetection
                     beta += histogram[t];
                     double w = Convert.ToDouble(beta) / Convert.ToDouble(n);
                     double a = Convert.ToDouble(alpha) / Convert.ToDouble(beta) - Convert.ToDouble(m - alpha) / Convert.ToDouble(n - beta);
-                    double sigma = w * (1 - w) * a * a;
+                    double sigma = w * (1 - w) * Math.Pow(a, 2);
                     if (sigma > maxSigma)
                     {
                         maxSigma = sigma;
@@ -114,6 +114,7 @@ namespace LicencePlateDetection
                     Interlocked.Exchange(ref progress, progress + (1.0 / heightInPixels) * 0.5);
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
                 });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -155,6 +156,7 @@ namespace LicencePlateDetection
                     Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
                 });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -191,6 +193,7 @@ namespace LicencePlateDetection
                     Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
                 });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -225,6 +228,7 @@ namespace LicencePlateDetection
                     Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));              
                 });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -243,12 +247,14 @@ namespace LicencePlateDetection
                 int heightInPixels = bitmapData.Height;
                 int widthInBytes = bitmapData.Width * bytesPerPixel;
                 byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
-                for (int i = 0; i <= heightInPixels - Convert.ToInt32(windowSize); i++)
+                double progress = 0.0;
+                List<Color> c = new List<Color>((bitmapData.Width - (Convert.ToInt32(windowSize) / 2) * 2) * (bitmapData.Height - (Convert.ToInt32(windowSize) / 2) * 2));
+                for (int i = 0; i < heightInPixels - Convert.ToInt32(windowSize) + 1; i++)
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes - Convert.ToInt32(windowSize) * bytesPerPixel + bytesPerPixel; j = j + bytesPerPixel)
                     {
-                        List<Color> colors = new List<Color>();
+                        List<Color> colors = new List<Color>(9);
                         for (int k = 0; k < Convert.ToInt32(windowSize); k++)
                         {
                             byte* currentWindowLine = currentLine + (k * bitmapData.Stride);
@@ -263,12 +269,78 @@ namespace LicencePlateDetection
                             int rightBrightness = (right.R + right.G + right.B) / 3;
                             return leftBrightness.CompareTo(rightBrightness);
                         });
-                        currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel] = Convert.ToByte(colors[colors.Count / 2].B);
-                        currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
-                        currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
-                    }                    
-                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - Convert.ToInt32(windowSize)); }));
+                        c.Add(colors[colors.Count / 2]);
+                    }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / (heightInPixels - Convert.ToInt32(windowSize) + 1)) * 0.5);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
                 }
+                Parallel.For(Convert.ToInt32(windowSize) / 2, heightInPixels - Convert.ToInt32(windowSize) / 2, i =>
+                {
+                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
+                    for (int j = bytesPerPixel * (Convert.ToInt32(windowSize) / 2); j < widthInBytes - bytesPerPixel * (Convert.ToInt32(windowSize) / 2); j = j + bytesPerPixel)
+                    {
+                        currentLine[j] = c[(bitmapData.Width - (Convert.ToInt32(windowSize) / 2) * 2) * (i - Convert.ToInt32(windowSize) / 2) + (j - bytesPerPixel * (Convert.ToInt32(windowSize) / 2)) / bytesPerPixel].B;
+                        currentLine[j + 1] = c[(bitmapData.Width - (Convert.ToInt32(windowSize) / 2) * 2) * (i - Convert.ToInt32(windowSize) / 2) + (j - bytesPerPixel * (Convert.ToInt32(windowSize) / 2)) / bytesPerPixel].G;
+                        currentLine[j + 2] = c[(bitmapData.Width - (Convert.ToInt32(windowSize) / 2) * 2) * (i - Convert.ToInt32(windowSize) / 2) + (j - bytesPerPixel * (Convert.ToInt32(windowSize) / 2)) / bytesPerPixel].R;
+                    }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / (heightInPixels - Convert.ToInt32(windowSize) / 2)) * 0.5);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
+                });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
+                bitmap.UnlockBits(bitmapData);
+                pictureBox1.Image = bitmap;
+                button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
+            }
+        }
+
+        private unsafe void SobelOperator()
+        {
+            lock (LockObject)
+            {
+                button1.BeginInvoke(new Action(() => { button1.Enabled = false; }));
+                GC.Collect();
+                Bitmap bitmap = new Bitmap(Bitmap);
+                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+                int heightInPixels = bitmapData.Height;
+                int widthInBytes = bitmapData.Width * bytesPerPixel;
+                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
+                double progress = 0.0;
+                List<int> g = new List<int>((bitmapData.Width - 2) * (bitmapData.Height - 2));
+                for (int i = 0; i < heightInPixels - 2; i++)
+                {
+                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
+                    for (int j = 0; j < widthInBytes - 2 * bytesPerPixel; j = j + bytesPerPixel)
+                    {
+                        List<int> brightness = new List<int>(9);
+                        for (int k = 0; k < 3; k++)
+                        {
+                            byte* currentWindowLine = currentLine + (k * bitmapData.Stride);
+                            for (int l = j; l < j + 3 * bytesPerPixel; l = l + bytesPerPixel)
+                            {
+                                brightness.Add((currentWindowLine[l] + currentWindowLine[l + 1] + currentWindowLine[l + 2]) / 3);
+                            }
+                        }
+                        double gx = (brightness[6] + 2 * brightness[7] + brightness[8]) - (brightness[0] + 2 * brightness[1] + brightness[2]);
+                        double gy = (brightness[2] + 2 * brightness[5] + brightness[8]) - (brightness[0] + 2 * brightness[3] + brightness[6]);
+                        g.Add(Convert.ToInt32(Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2))));
+                    }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / (heightInPixels - 2)) * 0.5);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); })); 
+                }
+                Parallel.For(1, heightInPixels - 1, i =>
+                {
+                    byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
+                    for (int j = bytesPerPixel; j < widthInBytes - bytesPerPixel; j = j + bytesPerPixel)
+                    {
+                        currentLine[j] = Convert.ToByte(g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel] > 255 ? 255 : g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel]);
+                        currentLine[j + 1] = Convert.ToByte(g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel] > 255 ? 255 : g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel]);
+                        currentLine[j + 2] = Convert.ToByte(g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel] > 255 ? 255 : g[(bitmapData.Width - 2) * (i - 1) + (j - bytesPerPixel) / bytesPerPixel]);
+                    }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / (heightInPixels - 1)) * 0.5);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); })); 
+                });
+                progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100; }));
                 bitmap.UnlockBits(bitmapData);
                 pictureBox1.Image = bitmap;
                 button1.BeginInvoke(new Action(() => { button1.Enabled = true; }));
@@ -309,7 +381,19 @@ namespace LicencePlateDetection
             {
                 Task.Factory.StartNew(() => { AdaptiveBinarization(); });
             }
-        }  
+        }
+
+        private void trackBar6_ValueChanged(object sender, EventArgs e)
+        {
+            if (trackBar6.Value == 0)
+            {
+                pictureBox1.Image = Bitmap;
+            }
+            else
+            {
+                Task.Factory.StartNew(() => { SobelOperator(); });
+            }
+        }   
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -331,6 +415,7 @@ namespace LicencePlateDetection
                 trackBar3.Enabled = true;
                 trackBar4.Enabled = true;
                 trackBar5.Enabled = true;
+                trackBar6.Enabled = true;
             }
         }
 
@@ -342,6 +427,6 @@ namespace LicencePlateDetection
                 this.DrawToBitmap(bitmap, new Rectangle(0, 0, Width, Height));
                 bitmap.Save("Screenshot.jpg", ImageFormat.Jpeg);
             }
-        }       
+        }            
     }
 }
