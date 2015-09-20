@@ -22,23 +22,6 @@ namespace LicencePlateDetection
             LockObject = new object();
         }
 
-        private double Dispersion(int[] array, int fromInclusive, int toExclusive)
-        {
-            double average = 0.0;
-            for (int i = fromInclusive; i < toExclusive; i++)
-            {
-                average += array[i];
-            }
-            average /= Convert.ToDouble(toExclusive - fromInclusive);
-            double dispersion = 0.0;
-            for (int i = fromInclusive; i < toExclusive; i++)
-            {
-                dispersion += Math.Pow(array[i] - average, 2);
-            }
-            dispersion /= Convert.ToDouble(toExclusive - fromInclusive);
-            return dispersion;
-        }
-
         private unsafe void AdaptiveBinarization()
         {
             lock (LockObject)
@@ -53,7 +36,8 @@ namespace LicencePlateDetection
                 byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
                 int minBrightness = (ptrFirstPixel[0] + ptrFirstPixel[1] + ptrFirstPixel[2]) / 3;
                 int maxBrightness = minBrightness;
-                for (int i = 0; i < heightInPixels; i++)
+                double progress = 0.0;
+                Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
@@ -61,24 +45,28 @@ namespace LicencePlateDetection
                         int brightness = (currentLine[j] + currentLine[j + 1] + currentLine[j + 2]) / 3;
                         if (brightness < minBrightness)
                         {
-                            minBrightness = brightness;
+                            Interlocked.Exchange(ref minBrightness, brightness);
                         }
                         if (brightness > maxBrightness)
                         {
-                            maxBrightness = brightness;
+                            Interlocked.Exchange(ref maxBrightness, brightness);
                         }
                     }
-                }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / heightInPixels) * 0.25);                    
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
+                });
                 int[] histogram = new int[maxBrightness - minBrightness + 1];
-                for (int i = 0; i < heightInPixels; i++)
+                Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
                     for (int j = 0; j < widthInBytes; j = j + bytesPerPixel)
                     {
                         int brightness = (currentLine[j] + currentLine[j + 1] + currentLine[j + 2]) / 3;
-                        histogram[brightness - minBrightness]++;
+                        Interlocked.Increment(ref histogram[brightness - minBrightness]);
                     }
-                }
+                    Interlocked.Exchange(ref progress, progress + (1.0 / heightInPixels) * 0.25);
+                    progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
+                });
                 int m = 0;
                 int n = 0;
                 for (int t = 0; t <= maxBrightness - minBrightness; t++)
@@ -103,8 +91,7 @@ namespace LicencePlateDetection
                         threshold = t;
                     }
                 }
-                threshold += minBrightness;
-                double progress = 0.0;
+                threshold += minBrightness;                
                 Parallel.For(0, heightInPixels, i =>
                 {
                     byte* currentLine = ptrFirstPixel + (i * bitmapData.Stride);
@@ -124,7 +111,7 @@ namespace LicencePlateDetection
                             currentLine[j + 2] = 255;
                         }
                     }
-                    Interlocked.Exchange(ref progress, progress + 1.0 / heightInPixels);
+                    Interlocked.Exchange(ref progress, progress + (1.0 / heightInPixels) * 0.5);
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = Convert.ToInt32(100.0 * progress); }));
                 });
                 bitmap.UnlockBits(bitmapData);
@@ -279,7 +266,7 @@ namespace LicencePlateDetection
                         currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel] = Convert.ToByte(colors[colors.Count / 2].B);
                         currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 1] = Convert.ToByte(colors[colors.Count / 2].G);
                         currentLine[j + (Convert.ToInt32(windowSize) / 2 * bitmapData.Stride) + Convert.ToInt32(windowSize) / 2 * bytesPerPixel + 2] = Convert.ToByte(colors[colors.Count / 2].R);
-                    }
+                    }                    
                     progressBar1.BeginInvoke(new Action(() => { progressBar1.Value = 100 * i / (heightInPixels - Convert.ToInt32(windowSize)); }));
                 }
                 bitmap.UnlockBits(bitmapData);
@@ -320,7 +307,7 @@ namespace LicencePlateDetection
             }
             else
             {
-                AdaptiveBinarization();
+                Task.Factory.StartNew(() => { AdaptiveBinarization(); });
             }
         }  
 

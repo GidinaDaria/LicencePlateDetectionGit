@@ -34,10 +34,10 @@
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.trackBar4 = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.trackBar5 = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.trackBar5 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -123,6 +123,18 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
+            // trackBar5
+            // 
+            this.trackBar5.Enabled = false;
+            this.trackBar5.LargeChange = 1;
+            this.trackBar5.Location = new System.Drawing.Point(6, 223);
+            this.trackBar5.Maximum = 1;
+            this.trackBar5.Name = "trackBar5";
+            this.trackBar5.Size = new System.Drawing.Size(215, 45);
+            this.trackBar5.TabIndex = 13;
+            this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar5.ValueChanged += new System.EventHandler(this.trackBar5_ValueChanged);
+            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.DimGray;
@@ -146,18 +158,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Картинки|*.bmp;*.jpg";
-            // 
-            // trackBar5
-            // 
-            this.trackBar5.Enabled = false;
-            this.trackBar5.LargeChange = 1;
-            this.trackBar5.Location = new System.Drawing.Point(6, 223);
-            this.trackBar5.Maximum = 1;
-            this.trackBar5.Name = "trackBar5";
-            this.trackBar5.Size = new System.Drawing.Size(215, 45);
-            this.trackBar5.TabIndex = 13;
-            this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar5.ValueChanged += new System.EventHandler(this.trackBar5_ValueChanged);
             // 
             // Form1
             // 
